@@ -1,9 +1,9 @@
 module datapath (
 	input logic clk, rst,
 	input logic [8:0] Din, 
-	input logic R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, Ain, Gin, IRin,  
+	input logic R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, Ain, Gin, 
 	input logic R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out, Gout, Dinout, AddSub,
-	output logic [8:0] BUS, IR
+	output logic [8:0] BUS
 );
 
 logic [8:0] R0, R1, R2, R3, R4, R5, R6, R7, A, G, sumG;
