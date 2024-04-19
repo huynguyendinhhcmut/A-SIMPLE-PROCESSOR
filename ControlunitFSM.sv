@@ -5,11 +5,12 @@ module ControlunitFSM (
 	output logic Gout, Dinout, IRin, Ain,
 	output logic Gin, AddSub, Done,
 	output logic R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, 
-	output logic R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out
+	output logic R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out,
+	output logic [8:0] IR
 );
 
 logic [7:0] outX, outY;
-logic [8:0] IR;
+//logic [8:0] IR;
 logic RXout, RYout, RXin, RYin;
 
 D_FF9b dffIR (.clk(clk), .rst(resetn), .enable(IRin), .data_i(Din), .data_o(IR));
@@ -38,13 +39,14 @@ assign R7out = (outX[7] & RXout) | (outY[7] & RYout);
 typedef enum bit [3:0] {reset	=	4'b0000,
 								fetch =	4'b0001,
 								mv 	=	4'b0010,
-								mvi 	= 	4'b0011,
-								add1 	= 	4'b0100,
-								add2 	= 	4'b0101,
-								add3 	= 	4'b0110,
-								sub1 	= 	4'b0111,
-								sub2 	= 	4'b1000,
-								sub3 	= 	4'b1001} state_t;
+								mvi1 	= 	4'b0011,
+								mvi2  =  4'b0100,
+								add1 	= 	4'b0101,
+								add2 	= 	4'b0110,
+								add3 	= 	4'b0111,
+								sub1 	= 	4'b1000,
+								sub2 	= 	4'b1001,
+								sub3 	= 	4'b1010} state_t;
 state_t state_reg, state_next;
 
 always_ff @(posedge clk or negedge resetn) begin
@@ -62,7 +64,7 @@ always_comb begin
 					RYout = 1'b0;
 					Gout = 1'b0;
 					Dinout = 1'b0; 
-					IRin = 1'b0; 
+					IRin = 1'b1; 
 					Ain = 1'b0;
 					RXin = 1'b0; 
 					RYin = 1'b0; 
@@ -88,7 +90,7 @@ always_comb begin
 						if ((run == 1) && (IR[8:6] == 3'b000))
 							state_next = mv;
 						else if ((run == 1) && (IR[8:6] == 3'b001))
-							state_next = mvi;
+							state_next = mvi1;
 						else if ((run == 1) && (IR[8:6] == 3'b010))
 							state_next = add1;
 						else if ((run == 1) && (IR[8:6] == 3'b011))
@@ -106,9 +108,24 @@ always_comb begin
 					Gin = 1'b0; 
 					AddSub = 1'b0; 
 					Done = 1'b1;				
-					state_next = fetch;
+					state_next = reset;
 				end
-		mvi:	begin
+		mvi1:	begin
+					RXout = 1'b0; 
+					RYout = 1'b0;
+					Gout = 1'b0;
+					Dinout = 1'b0; 
+					IRin = 1'b0; 
+					Ain = 1'b0;
+					RXin = 1'b0; 
+					RYin = 1'b0; 
+					Gin = 1'b0; 
+					AddSub = 1'b0; 
+					Done = 1'b0;
+						if (run == 1)
+							state_next = mvi2;
+				end
+		mvi2:	begin
 					RXout = 1'b0; 
 					RYout = 1'b0;
 					Gout = 1'b0;
@@ -120,7 +137,7 @@ always_comb begin
 					Gin = 1'b0; 
 					AddSub = 1'b0; 
 					Done = 1'b1;		
-					state_next = fetch;
+					state_next = reset;
 				end
 		add1:	begin
 					RXout = 1'b1; 
@@ -162,7 +179,7 @@ always_comb begin
 					Gin = 1'b0; 
 					AddSub = 1'b0; 
 					Done = 1'b1;					
-					state_next = fetch;
+					state_next = reset;
 				end
 		sub1:	begin
 					RXout = 1'b1; 
@@ -204,7 +221,7 @@ always_comb begin
 					Gin = 1'b0; 
 					AddSub = 1'b0; 
 					Done = 1'b1;				
-					state_next = fetch;
+					state_next = reset;
 				end
 	endcase
 end
