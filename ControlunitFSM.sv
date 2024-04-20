@@ -108,7 +108,7 @@ always_comb begin
 					Gin = 1'b0; 
 					AddSub = 1'b0; 
 					Done = 1'b1;				
-					state_next = reset;
+					state_next = fetch;
 				end
 		mvi1:	begin
 					RXout = 1'b0; 
@@ -137,7 +137,7 @@ always_comb begin
 					Gin = 1'b0; 
 					AddSub = 1'b0; 
 					Done = 1'b1;		
-					state_next = reset;
+					state_next = fetch;
 				end
 		add1:	begin
 					RXout = 1'b1; 
@@ -179,7 +179,7 @@ always_comb begin
 					Gin = 1'b0; 
 					AddSub = 1'b0; 
 					Done = 1'b1;					
-					state_next = reset;
+					state_next = fetch;
 				end
 		sub1:	begin
 					RXout = 1'b1; 
@@ -221,7 +221,7 @@ always_comb begin
 					Gin = 1'b0; 
 					AddSub = 1'b0; 
 					Done = 1'b1;				
-					state_next = reset;
+					state_next = fetch;
 				end
 	endcase
 end
