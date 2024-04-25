@@ -15,7 +15,7 @@ logic R0out, R1out, R2out, R3out, R4out, R5out, R6out, R7out;
 
 up_counter5b upcounter5b (.clk(mclk), .rst(resetn), .ADDRESS(ADDRESS));
 
-//MyROM myrom1 (.clk(mclk), .addr(ADDRESS), .data_read(Din));
+MyROM myrom1 (.clk(mclk), .addr(ADDRESS), .data_read(Din));
 
 ControlunitFSM FSM (	.clk(pclk), .run(run), .resetn(resetn),
 							.Din(Din), .Gout(Gout), .Dinout(Dinout), .IRin(IRin), .Ain(Ain), .Gin(Gin), .AddSub(AddSub), .Done(Done), .state(state), .IR(IR),
