@@ -1,9 +1,9 @@
 module system (
 	input logic mclk, pclk, run, resetn,
 	output logic Done, AddSub, Ain,
-	output logic [8:0] BUS, R0, R1, R2, R3, R4, R5, R6, R7, A, sumG, G, IR,Din,
+	output logic [8:0] BUS, R0, R1, R2, R3, R4, R5, R6, R7, A, sumG, G, IR, Din,
 	output logic [3:0] state,
-	output logic [4:0] ADDRESS,
+	output logic [4:0] ADDRESS
 );
 
 //logic [4:0] ADDRESS; 
